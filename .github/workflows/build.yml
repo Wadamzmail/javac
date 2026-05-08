@@ -50,7 +50,7 @@ jobs:
       - name: Upload shadow jar artifact
         uses: actions/upload-artifact@v5
         with:
-          name: shadow-jar
+          name: javac25-jat
           path: build/libs/*.jar
 
     outputs:
@@ -69,7 +69,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: kotlin-jar
+          name: javac25-jar
           path: outputs
 
       - name: Create GitHub Release
