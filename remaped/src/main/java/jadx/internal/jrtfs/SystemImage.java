@@ -39,6 +39,7 @@ import java.security.AccessController;
 import java.security.CodeSource;
 import java.security.PrivilegedAction;
 import java.security.ProtectionDomain;
+import com.itsaky.androidide.config.JavacConfigProvider;
 
 /**
  * @implNote This class needs to maintain JDK 8 source compatibility.
@@ -115,7 +116,7 @@ abstract class SystemImage {
    */
   private static String findHome() {
     // deenu modify: protectionDomain check
-    ProtectionDomain protectionDomain = SystemImage.class.getProtectionDomain();
+  /*  ProtectionDomain protectionDomain = SystemImage.class.getProtectionDomain();
     if (protectionDomain != null) {
       CodeSource cs = protectionDomain.getCodeSource();
       if (cs == null) return System.getProperty("java.home");
@@ -134,6 +135,7 @@ abstract class SystemImage {
         throw new InternalError(e);
       }
     }
-    return System.getProperty("java.home");
+    return System.getProperty("java.home");*/
+    return JavacConfigProvider.getJavaHome();
   }
 }

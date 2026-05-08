@@ -37,6 +37,7 @@ import openjdk.sun.tools.javac.resources.CompilerProperties.Fragments;
 import openjdk.sun.tools.javac.util.*;
 import openjdk.sun.tools.javac.util.JCDiagnostic.Error;
 import openjdk.sun.tools.javac.util.JCDiagnostic.Fragment;
+import com.itsaky.androidide.config.JavacConfigProvider;
 
 /** The source language version accepted.
  *
@@ -303,9 +304,12 @@ public enum Source {
 
         public boolean allowedInSource(Source source) {
             // deenu modify: android check
-            if (isDalvik() && optFragment == Fragments.FeatureModules) {
-            return false;
-        }
+         //   if (isDalvik() && optFragment == Fragments.FeatureModules) {
+         //   return false;
+         //   }
+         if (!JavacConfigProvider.isModulesEnabled() && optFragment == Fragments.FeatureModules) {
+                return false;
+         }
 
             return source.compareTo(minLevel) >= 0 && source.compareTo(maxLevel) <= 0;
         }

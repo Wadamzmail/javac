@@ -26,6 +26,7 @@
 package javx.lang.model;
 
 import static openjdk.sun.tools.reflection.android.AndroidSupport.isDalvik;
+import com.itsaky.androidide.javac.config.JavacConfigProvider;
 
 /**
  * Source versions of the Java programming language.
@@ -492,9 +493,10 @@ public enum SourceVersion {
      * need to be updated accordingly.
      */
   private static SourceVersion getLatestSupported() {
+    return JavacConfigProvider.getLatestSourceVersion();
     // deenu modify: android check
-    int intVersion = isDalvik() ? 8 : Runtime.version().feature();
-    return (intVersion >= 11) ? valueOf("RELEASE_" + Math.min(25, intVersion)) : RELEASE_10;
+    //int intVersion = isDalvik() ? 8 : Runtime.version().feature();
+    //return (intVersion >= 11) ? valueOf("RELEASE_" + Math.min(25, intVersion)) : RELEASE_10;
   }
 
     /**
@@ -518,7 +520,8 @@ public enum SourceVersion {
      * which may be earlier than the {@code latest} release.
      */
     public static SourceVersion latestSupported() {
-        return latestSupported;
+       return JavacConfigProvider.getLatestSourceVersion();
+       // return latestSupported;
     }
 
     /**
