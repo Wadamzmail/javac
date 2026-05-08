@@ -15,9 +15,9 @@
  *   along with AndroidIDE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.itsaky.androidide.config;
+package com.itsaky.androidide.javac.config;
 
-import jdkx.lang.model.SourceVersion;
+import javx.lang.model.SourceVersion;
 import java.lang.reflect.Field;
 
 public class JavacConfigProvider {

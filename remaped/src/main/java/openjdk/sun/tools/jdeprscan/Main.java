@@ -63,10 +63,10 @@ import javx.tools.StandardLocation;
 import javx.tools.ToolProvider;
 import com.itsaky.androidide.config.JavacConfigProvider;
 
-import com.sun.tools.javac.file.JavacFileManager;
-import com.sun.tools.javac.platform.JDKPlatformProvider;
+import openjdk.sun.tools.javac.file.JavacFileManager;
+import openjdk.sun.tools.javac.platform.JDKPlatformProvider;
 
-import com.sun.tools.jdeprscan.scan.Scan;
+import openjdk.sun.tools.jdeprscan.scan.Scan;
 
 import static java.util.stream.Collectors.*;
 
