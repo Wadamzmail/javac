@@ -1,9 +1,9 @@
-name: Build Remap Module
+name: Build Shadow Jar
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch:
   push:
-   branches: [ "main" ]
+    branches: ["main"]
   pull_request:
 
 jobs:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
@@ -24,13 +24,11 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      - name: Build with Gradle
-        run: ./gradlew clean build --no-daemon
+      - name: Run shadowJar (root project only)
+        run: ./gradlew :shadowJar --no-daemon
 
-      - name: Upload build artifacts
+      - name: Upload shadow jar artifact
         uses: actions/upload-artifact@v4
         with:
-          name: remapped-jar
-          path: |
-            build/libs/*.jar
-            **/build/libs/*.jar 
+          name: shadow-jar
+          path: build/libs/*.jar
