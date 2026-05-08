@@ -27,8 +27,63 @@ jobs:
       - name: Run shadowJar (root project only)
         run: ./gradlew :shadowJar --no-daemon
 
+      - name: Compute metadata
+        id: meta
+        run: |
+          JAR=$(ls build/libs/*.jar | head -n1)
+          echo "jar=$JAR" >> $GITHUB_OUTPUT
+
+          NAME=$(basename "$JAR")
+          echo "name=$NAME" >> $GITHUB_OUTPUT
+
+          SHA256=$(sha256sum "$JAR" | awk '{print $1}')
+          echo "sha256=$SHA256" >> $GITHUB_OUTPUT
+
+          VERSION=$(echo "$NAME" | sed -E 's/.*-([0-9]+\.[0-9]+\.[0-9]+)-SNAPSHOT.*/\1/')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          echo "short_sha=$SHORT_SHA" >> $GITHUB_OUTPUT
+
+          echo "tag=v${VERSION}-${SHORT_SHA}" >> $GITHUB_OUTPUT
+
       - name: Upload shadow jar artifact
         uses: actions/upload-artifact@v5
         with:
           name: shadow-jar
           path: build/libs/*.jar
+
+    outputs:
+      tag: ${{ steps.meta.outputs.tag }}
+      version: ${{ steps.meta.outputs.version }}
+      short_sha: ${{ steps.meta.outputs.short_sha }}
+      name: ${{ steps.meta.outputs.name }}
+      sha256: ${{ steps.meta.outputs.sha256 }}
+          
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: kotlin-jar
+          path: outputs
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.build.outputs.tag }}
+          name: Kotlin ${{ needs.build.outputs.version }} (patched)
+          body: |
+            Kotlin Version: ${{ needs.build.outputs.version }}
+            Commit: ${{ needs.build.outputs.short_sha }}
+
+            Artifact: ${{ needs.build.outputs.name }}
+
+            SHA256: ${{ needs.build.outputs.sha256 }}
+          files: outputs/${{ needs.build.outputs.name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
