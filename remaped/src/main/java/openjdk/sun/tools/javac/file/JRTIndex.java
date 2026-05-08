@@ -50,7 +50,7 @@ import javax.tools.FileObject;
 import openjdk.sun.tools.javac.file.RelativePath.RelativeDirectory;
 import openjdk.sun.tools.javac.util.Context;
 import org.kodtik.ide.zipfs2.AndroidFsProvider;
-import com.itsaky.androidide.javac.config.JavacConfigProvider;
+import com.itsaky.androidide.config.JavacConfigProvider;
 
 /** A package-oriented index into the jrt: filesystem. */
 public class JRTIndex {

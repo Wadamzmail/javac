@@ -105,7 +105,7 @@ import static openjdk.sun.tools.javac.main.Option.XBOOTCLASSPATH_APPEND;
 import static openjdk.sun.tools.javac.main.Option.XBOOTCLASSPATH_PREPEND;
 import org.kodtik.ide.zipfs2.AndroidFsProvider;
 import static openjdk.sun.tools.reflection.android.AndroidSupport.isDalvik;
-import com.itsaky.androidide.javac.config.JavacConfigProvider;
+import com.itsaky.androidide.config.JavacConfigProvider;
 
 /**
  * This class converts command line arguments, environment variables and system properties (in

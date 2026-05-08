@@ -26,7 +26,7 @@
 package javx.lang.model;
 
 import static openjdk.sun.tools.reflection.android.AndroidSupport.isDalvik;
-import com.itsaky.androidide.javac.config.JavacConfigProvider;
+import com.itsaky.androidide.config.JavacConfigProvider;
 
 /**
  * Source versions of the Java programming language.

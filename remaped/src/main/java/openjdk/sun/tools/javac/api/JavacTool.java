@@ -39,6 +39,7 @@ import java.util.Set;
 
 import javx.lang.model.SourceVersion;
 import javx.tools.*;
+import com.itsaky.androidide.config.JavacConfigProvider;
 
 import openjdk.sun.source.util.JavacTask;
 import openjdk.sun.tools.javac.file.JavacFileManager;
