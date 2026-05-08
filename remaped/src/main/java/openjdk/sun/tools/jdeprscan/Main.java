@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2016, 2024, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -61,10 +61,10 @@ import javx.tools.JavaFileObject.Kind;
 import javx.tools.StandardJavaFileManager;
 import javx.tools.StandardLocation;
 import javx.tools.ToolProvider;
-import com.itsaky.androidide.config.JavacConfigProvider;
 
 import openjdk.sun.tools.javac.file.JavacFileManager;
 import openjdk.sun.tools.javac.platform.JDKPlatformProvider;
+import com.itsaky.androidide.config.JavacConfigProvider;
 
 import openjdk.sun.tools.jdeprscan.scan.Scan;
 
@@ -381,10 +381,8 @@ public class Main implements DiagnosticListener<JavaFileObject> {
             hasModules = true;
             hasJavaSE_EE = false;
         }
-        
-        // AndroidIDE changed: Has modules only when enabled.
+       
         hasModules = JavacConfigProvider.isModulesEnabled() && hasModules;
- 
         options.addAll(List.of("--release", release));
 
         if (hasModules) {
@@ -418,7 +416,7 @@ public class Main implements DiagnosticListener<JavaFileObject> {
                              .noneMatch(n -> n.equals(release))) {
                 return false;
             }
-            JavaFileManager fm = pp.getPlatform(release, "").getFileManager();
+            JavaFileManager fm = pp.getPlatformTrusted(release).getFileManager();
             List<String> classNames = new ArrayList<>();
             for (JavaFileObject fo : fm.list(StandardLocation.PLATFORM_CLASS_PATH,
                                              "",

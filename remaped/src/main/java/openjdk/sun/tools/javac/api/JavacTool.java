@@ -39,7 +39,6 @@ import java.util.Set;
 
 import javx.lang.model.SourceVersion;
 import javx.tools.*;
-import com.itsaky.androidide.config.JavacConfigProvider;
 
 import openjdk.sun.source.util.JavacTask;
 import openjdk.sun.tools.javac.file.JavacFileManager;
@@ -64,7 +63,7 @@ import openjdk.sun.tools.javac.util.PropagatedException;
  * risk.  This code and its internal interfaces are subject to change
  * or deletion without notice.</b></p>
  *
- * @author Peter von der Ah\u00e9
+ * @author Peter von der Ahé
  */
 public final class JavacTool implements JavaCompiler {
     /**

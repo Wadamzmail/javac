@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, 2016, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015, 2024, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -27,8 +27,9 @@ package jadx.internal.jimage;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -46,9 +47,24 @@ import java.util.function.Function;
 public class ImageReaderFactory {
     private ImageReaderFactory() {}
 
-    private static final String JAVA_HOME = com.itsaky.androidide.config.JavacConfigProvider.getJavaHome(); //System.getProperty("java.home");
-    private static final Path BOOT_MODULES_JIMAGE =
-        Paths.get(JAVA_HOME, "lib", "modules");
+    private static final String JAVA_HOME = com.itsaky.androidide.config.JavacConfigProvider.getJavaHome();//System.getProperty("java.home");
+    private static final Path BOOT_MODULES_JIMAGE;
+
+    static {
+        FileSystem fs;
+        if (ImageReaderFactory.class.getClassLoader() == null) {
+            try {
+                fs = (FileSystem) Class.forName("sun.nio.fs.DefaultFileSystemProvider")
+                        .getMethod("theFileSystem")
+                        .invoke(null);
+            } catch (Exception e) {
+                throw new ExceptionInInitializerError(e);
+            }
+        } else {
+            fs = FileSystems.getDefault();
+        }
+        BOOT_MODULES_JIMAGE = fs.getPath(JAVA_HOME, "lib", "modules");
+    }
 
     private static final Map<Path, ImageReader> readers = new ConcurrentHashMap<>();
 
